@@ -1,1 +1,82 @@
+
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color:azure;
+  /* height: 100vh; */
+  /* overflow: hidden; 💥 Core change: disables scrolling globally */
+}
+
+/* global override */
+table td select.form-select,
+table td select.form-select-sm {
+  width: 100% !important;
+  display: block;
+}
+
+
+/* Style the overall tab group */
+mat-tab-group {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  padding: 12px;
+}
+
+/* Style the tab labels */
+.mat-tab-label {
+  width: fit-content;
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+  text-transform: uppercase;
+  padding: 12px 20px;
+}
+
+/* Active tab label */
+.mat-tab-label.mat-tab-label-active {
+  color: #1976d2 !important;
+  border-bottom: 3px solid #1976d2 !important;
+}
+
+/* Optional: hover effect */
+.mat-tab-label:hover {
+  color: #0d47a1;
+  cursor: pointer;
+}
+
+
+/* Optional: header bottom border */
+.mat-tab-header {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}::ng-deep .mat-tab-label {
+ 
+  margin: 0 !important;
+  padding: 12px 16px !important; /* or adjust as needed */
+  border-right: 1px solid #ccc; /* Optional: for separation */
+}
+
+::ng-deep .mat-tab-label:last-child {
+  border-right: none; /* Remove right border on last tab */
+}
+
+::ng-deep .mat-tab-list {
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  display: flex;
+}
+
+::ng-deep .mat-tab-group {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+
+/* html, body { height: 100%; } */
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

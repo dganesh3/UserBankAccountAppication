@@ -1,0 +1,58 @@
+<body>
+  <div class="container mt-4">
+    <div class="text-end mt-3">
+      <h2 class="mb-3">Transaction History</h2>
+      <button (click)="onBack()">Back</button>
+    </div>
+
+
+    <p-table showGridlines [value]="transactions" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,15,20]"
+      [totalRecords]="totalRecords" [lazy]="true" (onPage)="onPageChange($event)" [scrollable]="true"
+      scrollHeight="auto" [responsiveLayout]="'scroll'" *ngIf="transactions && transactions.length; else noData">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>From Account Name</th>
+          <th>From Holder Name</th>
+          <th>From Bank Name</th>
+          <th>To Account Name</th>
+          <th>To Holder Name</th>
+          <th>To Bank Name</th>
+          <th>Date</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-tx>
+        <tr>
+          <td>{{ tx.id }}</td>
+          <td>{{ tx.transactionType }}</td>
+          <td>{{ tx.amount }}</td>
+          <td>{{ tx.accountNumber || '-' }}</td>
+          <td>{{ tx.accountHolderName || '-' }}</td>
+          <td>{{ tx.bankName || '-' }}</td>
+          <td>{{ tx.toAccountNumber || '-' }}</td>
+          <td>{{ tx.toAccountHolderName || '-' }}</td>
+          <td>{{ tx.toBankName || '-' }}</td>
+          <td>{{ tx.transactionDate | date:'short' }}</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="9" class="text-center text-muted">No transactions found.</td>
+        </tr>
+      </ng-template>
+
+
+    </p-table>
+
+    <ng-template #noData>
+      <p class="text-muted text-center">No transactions available.</p>
+    </ng-template>
+
+
+  </div>
+</body>

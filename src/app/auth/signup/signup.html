@@ -1,0 +1,122 @@
+<div class="signup-container">
+  <div class="signup-box">
+    <h2>Create Account</h2>
+    <form [formGroup]="signupForm" (ngSubmit)="register()">
+
+      <!-- First + Last Name -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" formControlName="firstname" />
+          <small class="error"
+            *ngIf="signupForm.get('firstname')?.touched && signupForm.get('firstname')?.hasError('required')"
+            class="text-danger">
+            First Name is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" formControlName="lastname" />
+          <small class="error"
+            *ngIf="signupForm.get('lastname')?.touched && signupForm.get('lastname')?.hasError('required')"
+            class="text-danger">
+            Last Name is required
+          </small>
+        </div>
+      </div>
+
+      <!-- Username + Mobile -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" formControlName="username" />
+          <small class="error"
+            *ngIf="signupForm.get('username')?.touched && signupForm.get('username')?.hasError('required')"
+            class="text-danger">
+            Username is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Mobile</label>
+          <input type="text" formControlName="mobile" maxlength="10" (keypress)="allowOnlyNumbers($event)" />
+          <!-- <small class="error"
+            *ngIf="signupForm.get('mobile')?.touched && signupForm.get('mobile')?.hasError('pattern')"
+            class="text-danger">
+            Enter a valid mobile number
+          </small> -->
+          <small class="error"
+            *ngIf="signupForm.get('mobile')?.touched && (signupForm.get('mobile')?.hasError('minlength') || signupForm.get('mobile')?.hasError('maxlength'))"
+            class="text-danger">
+            Mobile number must be 10 digits
+          </small>
+        </div>
+      </div>
+
+      <!-- Password + Confirm Password -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" formControlName="password" />
+          <small class="error"
+            *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.hasError('minlength')"
+            class="text-danger">
+            Password must be at least 6 characters
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" formControlName="confirmpassword" />
+          <small *ngIf="signupForm.get('confirmpassword')?.hasError('passwordMismatch') 
+         && signupForm.get('confirmpassword')?.touched" class="text-danger">
+            Passwords do not match
+          </small>
+        </div>
+      </div>
+
+      <!-- Email -->
+     
+      <div class="form-group">
+        <label>Email</label>
+        <div class="email-row">
+          <input type="email" formControlName="email" [readonly]="emailVerified" />
+          <button type="button" (click)="sendOtp()" *ngIf="!otpSent && !emailVerified">Verify</button>
+        </div>
+
+        <small class="error" *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.hasError('email')"
+          class="text-danger">
+          Enter a valid email address
+        </small>
+      </div>
+
+    
+      <div class="form-group" *ngIf="otpSent && !emailVerified">
+        <label>Enter OTP</label>
+        <input type="text" formControlName="otp" />
+        <button type="button" (click)="verifyOtp()">Submit OTP</button>
+
+        <small class="error" *ngIf="otpError" class="text-danger">
+          Invalid OTP. Please try again.
+        </small>
+
+        <!-- Resend OTP with Countdown -->
+        <div class="otp-timer">
+          <button type="button" (click)="resendOtp()" [disabled]="countdown > 0">
+            Resend OTP
+          </button>
+          <span *ngIf="countdown > 0">Resend available in {{ countdown }}s</span>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+
+     <!-- <p>Already have an account? <a class="login-link" routerLink="/login"> Login</a></p>  -->
+    </form>
+    <div class="signup-link">
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </div>
+  </div>
+</div>

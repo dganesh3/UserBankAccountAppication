@@ -1,0 +1,38 @@
+<header class="header">
+  <div class="left-section">
+    <button class="menu-btn" (click)="toggleSidebar()">☰</button>
+    <h3 class="title">UserBankApplication</h3>
+  </div>
+
+  <div class="right-section">
+    <nav>
+      <ng-container *ngIf="authService.loggedIn$ | async; else loggedOut">
+        <button (click)="logout()">Logout</button>
+      </ng-container>
+
+      <ng-template #loggedOut>
+        <button class="an"><a routerLink="/login">Login</a></button>
+        <button class="an"><a routerLink="/signup">Signup</a></button>
+      </ng-template>
+    </nav>
+  </div>
+
+</header>
+<main class="content" [class.shift]="sidebarOpen">
+
+  <router-outlet></router-outlet>
+</main>
+
+
+
+<aside class="sidebar" [class.open]="sidebarOpen">
+  <a routerLink="/home" (click)="closeSidebar()">Home</a>
+  <a routerLink="/search" (click)="closeSidebar()">Search</a>
+  <a routerLink="/user" (click)="closeSidebar()">User</a>
+  <a routerLink="/about" (click)="closeSidebar()">About</a>
+  <a routerLink="/support" (click)="closeSidebar()">Support</a>
+  <a routerLink="/payment" (click)="closeSidebar()">Payment</a>
+</aside>
+<footer class="footer">
+  © 2025 Vaultify. All rights reserved.
+</footer>

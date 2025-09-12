@@ -1,0 +1,143 @@
+/* Container styling */
+
+
+.container {
+    max-width: 100%;
+    /* height: vh; */
+    margin: 0 auto;
+ 
+    padding: 2rem 1rem;
+    /* background-color: #cbcaca; */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+.text-end{
+  height: 50px;
+  width: 100%;
+  /* border: 1px solid rgb(202, 16, 16) ; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+ h2{
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bolder;
+  /* margin-right: 1090px; */
+  /* margin-top: 10px; */
+}
+  
+
+    /* Table header */
+    p-table ::ng-deep .p-datatable-thead > tr > th {
+    text-align: center;
+    font-size: 18px;
+    height: 50px;
+    font-weight: 500;
+    background-color: #e9eff5;
+    color: #2d2d2d;
+    padding: 1rem;
+    }
+
+/* Table body rows */
+p-table ::ng-deep .p-datatable-tbody > tr > td {
+  text-align: center;
+  font-size: 17px;
+  height: 50px;
+   background-color: #fefefe;
+  padding: 0.2rem;
+  color: #3c3c3c;
+}
+
+
+/* Alternate row shading */
+.p-datatable tbody tr:nth-child(even) {
+  background-color: #f4f6f8;
+}
+
+/* Hover effect */
+.p-datatable tbody tr:hover {
+  background-color: #d9ebff;
+  transform: scale(1.002);
+}
+
+/* Scrollable wrapper */
+.p-datatable-scrollable-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+/* Empty message */
+.p-datatable .p-datatable-emptymessage {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 2rem 0;
+}
+
+
+:host ::ng-deep .p-paginator {
+  /* border:1px solid black; */
+  background: transparent;
+  padding: 0.5rem 1rem;
+  font-size: 20px;
+  justify-content: flex-end; /* Centers it inside flex */
+ 
+}
+
+
+/* Page buttons */
+:host ::ng-deep .p-paginator .p-paginator-page {
+  border-radius:2px;
+  margin: 0 0.25rem;
+  transition: background 0.3s ease;
+}
+
+/* Active page */
+:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background: #007ad9;
+  color: #fff;
+  border-color: #007ad9;
+  font-weight: 600;
+}
+
+/* Hover effect */
+:host ::ng-deep .p-paginator .p-paginator-page:hover {
+  background: #236ac0;
+}
+
+/* Next/Prev buttons */
+:host ::ng-deep .p-paginator .p-paginator-prev,
+:host ::ng-deep .p-paginator .p-paginator-next {
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rows per page dropdown */
+:host ::ng-deep .p-paginator .p-dropdown {
+  min-width: 5rem;
+  font-size: 14px;
+}
+
+
+button{
+    
+    background-color: #007ad9;
+    color: white;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    width: 100px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover{
+ 
+    background-color: #ecf005;
+}

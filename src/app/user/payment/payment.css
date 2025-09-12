@@ -1,0 +1,96 @@
+/* Container styling */
+.payment-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fdfdfd;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Headline */
+.payment-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3a3a3a;
+}
+
+/* Form styling */
+.payment-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Label styling */
+.payment-container label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Input and select styling */
+.payment-container input,
+.payment-container select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.payment-container input:focus,
+.payment-container select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Buttons */
+.payment-container button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.payment-container button:hover {
+  background-color: #0056b3;
+}
+
+/* From/To account container for side-by-side cards */
+.payment-container select[formControlName="fromAccount"],
+.payment-container select[formControlName="toAccount"] {
+  width: 48%;
+}
+
+/* For Transfer action: side-by-side accounts */
+.payment-container div[ng-reflect-ng-if="true"] {
+  display: flex;
+  justify-content: space-between;
+  gap: 4%;
+}
+
+/* Amount input */
+.payment-container input[type="number"] {
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  .payment-container div[ng-reflect-ng-if="true"] {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .payment-container select[formControlName="fromAccount"],
+  .payment-container select[formControlName="toAccount"] {
+    width: 100%;
+  }
+}

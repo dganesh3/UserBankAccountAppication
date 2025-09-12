@@ -1,0 +1,127 @@
+  [
+  {
+    "countryName": "India",
+    "countryCode": "IN",
+    "phoneCode": "+91",
+    "region": "Asia",
+    "states": [
+      {
+        "stateName": "Andhra Pradesh",
+        "region": "South India",
+        "language": "Telugu",
+        "districts": [
+          { "districtName": "Tirupati", "pincode": "517501" },
+          { "districtName": "Vijayawada", "pincode": "520001" },
+          { "districtName": "Visakhapatnam", "pincode": "530001" }
+        ]
+      },
+      {
+        "stateName": "Maharashtra",
+        "region": "West India",
+        "language": "Marathi",
+        "districts": [
+          { "districtName": "Mumbai", "pincode": "400001" },
+          { "districtName": "Pune", "pincode": "411001" },
+          { "districtName": "Nagpur", "pincode": "440001" }
+        ]
+      },
+      {
+        "stateName": "Tamil Nadu",
+        "region": "South India",
+        "language": "Tamil",
+        "districts": [
+          { "districtName": "Chennai", "pincode": "600001" },
+          { "districtName": "Coimbatore", "pincode": "641001" },
+          { "districtName": "Madurai", "pincode": "625001" }
+        ]
+      },
+      {
+        "stateName": "Karnataka",
+        "region": "South India",
+        "language": "Kannada",
+        "districts": [
+          { "districtName": "Bengaluru", "pincode": "560001" },
+          { "districtName": "Mysuru", "pincode": "570001" },
+          { "districtName": "Mangaluru", "pincode": "575001" }
+        ]
+      },
+      {
+        "stateName": "Telangana",
+        "region": "South India",
+        "language": "Telugu",
+        "districts": [
+          { "districtName": "Hyderabad", "pincode": "500001" },
+          { "districtName": "Warangal", "pincode": "506001" },
+          { "districtName": "Nizamabad", "pincode": "503001" }
+        ]
+      },
+      {
+        "stateName": "Uttar Pradesh",
+        "region": "North India",
+        "language": "Hindi",
+        "districts": [
+          { "districtName": "Lucknow", "pincode": "226001" },
+          { "districtName": "Kanpur", "pincode": "208001" },
+          { "districtName": "Varanasi", "pincode": "221001" }
+        ]
+      },
+      {
+        "stateName": "West Bengal",
+        "region": "East India",
+        "language": "Bengali",
+        "districts": [
+          { "districtName": "Kolkata", "pincode": "700001" },
+          { "districtName": "Howrah", "pincode": "711101" },
+          { "districtName": "Durgapur", "pincode": "713216" }
+        ]
+      },
+      {
+        "stateName": "Rajasthan",
+        "region": "Northwest India",
+        "language": "Hindi",
+        "districts": [
+          { "districtName": "Jaipur", "pincode": "302001" },
+          { "districtName": "Udaipur", "pincode": "313001" },
+          { "districtName": "Jodhpur", "pincode": "342001" }
+        ]
+      },
+      {
+        "stateName": "Kerala",
+        "region": "South India",
+        "language": "Malayalam",
+        "districts": [
+          { "districtName": "Thiruvananthapuram", "pincode": "695001" },
+          { "districtName": "Kochi", "pincode": "682001" },
+          { "districtName": "Kozhikode", "pincode": "673001" }
+        ]
+      },
+      {
+        "stateName": "Gujarat",
+        "region": "West India",
+        "language": "Gujarati",
+        "districts": [
+          { "districtName": "Ahmedabad", "pincode": "380001" },
+          { "districtName": "Surat", "pincode": "395003" },
+          { "districtName": "Vadodara", "pincode": "390001" }
+        ]
+      }
+    ]
+  },
+  {
+    "countryName": "USA",
+    "countryCode": "US",
+    "phoneCode": "+1",
+    "region": "North America",
+    "states": [
+      {
+        "stateName": "California",
+        "region": "West Coast",
+        "language": "English",
+        "districts": [
+          { "districtName": "San Francisco", "pincode": "94101" },
+          { "districtName": "Los Angeles", "pincode": "90001" }
+        ]
+      }
+    ]
+  }
+]

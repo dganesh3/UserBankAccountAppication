@@ -1,0 +1,40 @@
+<h2>Support Request</h2>
+<form [formGroup]="supportForm" (ngSubmit)="onSubmit()">
+  
+  <label>Name</label>
+  <input formControlName="name" type="text" />
+  <div *ngIf="supportForm.get('name')?.invalid && supportForm.get('name')?.touched" class="error">
+    Name is required
+  </div>
+
+  <label>Email</label>
+<input formControlName="email" type="text" />
+
+<!-- Required Error -->
+<div *ngIf="supportForm.get('email')?.hasError('required') && supportForm.get('email')?.touched" 
+     class="error">
+  Email is required.
+</div>
+
+<!-- Invalid Format Error -->
+<div *ngIf="supportForm.get('email')?.hasError('email') && supportForm.get('email')?.touched" 
+     class="error">
+  Please enter a valid email address.
+</div>
+
+
+  <label>Mobile Number</label>
+  <input formControlName="mobile" type="text" />
+  <div *ngIf="supportForm.get('mobile')?.invalid && supportForm.get('mobile')?.touched" class="error">
+    Enter a valid 10-digit mobile number
+  </div>
+
+  <label>Reason</label>
+  <textarea formControlName="reason"></textarea>
+  <div *ngIf="supportForm.get('reason')?.invalid && supportForm.get('reason')?.touched" class="error">
+    Reason is required
+  </div>
+
+  <button type="submit" [disabled]="supportForm.invalid">Submit</button>
+</form>
+

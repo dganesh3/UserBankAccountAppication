@@ -1,0 +1,618 @@
+<form [formGroup]="dashboardForm" (ngSubmit)="onSubmit()">
+  <div class="dashboard-container">
+
+    <!-- 👤 USER FORM -->
+    <div class="user-form">
+      <div class="card-header fw-bold text-center">
+        <h3>User Details</h3>
+      </div>
+
+      <!-- Profile Upload -->
+      <div class="profile-image-wrapper">
+        <img
+          [src]="profileImageUrl || ('http://localhost:8080' + dashboardForm.get('profileImage')?.value) || defaultImage"
+          alt="Profile" class="profile-image" />
+        <input type="file" class="profile-upload-input" (change)="onImageSelected($event)" />
+      </div>
+
+      <div class="row g-2">
+        <div class="col-6">
+          <label>First Name</label>
+          <input type="text" formControlName="firstName" class="form-control" />
+          <div *ngIf="dashboardForm.get('firstName')?.touched && dashboardForm.get('firstName')?.invalid"
+            style="color: red; font-size: 13px;">
+            First Name is required.
+          </div>
+
+        </div>
+        <div class="col-6">
+          <label>Last Name</label>
+          <input type="text" formControlName="lastName" class="form-control" />
+          <div *ngIf="dashboardForm.get('lastName')?.touched && dashboardForm.get('lastName')?.invalid"
+            style="color: red; font-size: 13px;">
+            Last Name is required.
+          </div>
+        </div>
+
+        <div class="col-6">
+          <label>Mobile</label>
+          <input type="text" formControlName="mobile" class="form-control" maxlength="10"
+            (keypress)="allowOnlyNumbers($event)" />
+
+          <!-- Required validation -->
+          <div *ngIf="dashboardForm.get('mobile')?.touched && dashboardForm.get('mobile')?.hasError('required')"
+            style="color: red; font-size: 13px;">
+            Phone Number is required.
+          </div>
+
+          <!-- Pattern/length validation -->
+          <div *ngIf="dashboardForm.get('mobile')?.touched && dashboardForm.get('mobile')?.hasError('pattern')"
+            style="color: red; font-size: 13px;">
+            Phone number must be 10 digits.
+          </div>
+          <div *ngIf="dashboardForm.get('mobile')?.touched && dashboardForm.get('mobile')?.hasError('maxlength')"
+            style="color: red; font-size: 13px;">
+            Phone number must be 10 digits.
+          </div>
+        </div>
+        <div class="col-6">
+          <label>Email</label>
+          <input type="email" formControlName="email" class="form-control" />
+          <div *ngIf="dashboardForm.get('email')?.touched && dashboardForm.get('email')?.invalid"
+            style="color: red; font-size: 13px;">
+            Email is required.
+          </div>
+        </div>
+
+
+        <!-- <div class="col-6">
+          <label>Country</label>
+          <input list="countryList" formControlName="country" placeholder="Select Country" />
+          <div *ngIf="dashboardForm.get('country')?.touched && dashboardForm.get('country')?.invalid"
+            style="color: red; font-size: 13px;">
+            country is required.
+          </div>
+          <datalist id="countryList">
+            <option *ngFor="let c of countries" [value]="c"></option>
+          </datalist>
+        </div> -->
+
+        <!-- State with Autocomplete -->
+        <!-- <div class="col-6">
+          <label>State</label>
+          <input list="stateList" formControlName="state" placeholder="Select State" [disabled]="!states.length" />
+          <div *ngIf="dashboardForm.get('state')?.touched && dashboardForm.get('state')?.invalid"
+            style="color: red; font-size: 13px;">
+            State is required.
+          </div>
+          <datalist id="stateList">
+            <option *ngFor="let s of states" [value]="s"></option>
+          </datalist>
+        </div> -->
+
+        <!-- District with Autocomplete -->
+        <!-- <div class="col-6">
+          <label>District</label>
+          <input list="districtList" formControlName="district" placeholder="Select District"
+            [disabled]="!districts.length" />
+          <div *ngIf="dashboardForm.get('district')?.touched && dashboardForm.get('district')?.invalid"
+            style="color: red; font-size: 13px;">
+            District is required.
+          </div>
+          <datalist id="districtList">
+            <option *ngFor="let d of districts" [value]="d"></option>
+          </datalist>
+        </div> -->
+
+
+        <!-- Pincode (Auto populated) -->
+        <!-- <div class="col-6">
+          <label>Pincode</label>
+          <input type="text" formControlName="pincode" class="form-control" />
+          <div *ngIf="dashboardForm.get('pincode')?.touched && dashboardForm.get('pincode')?.invalid"
+            style="color: red; font-size: 13px;">
+            Pin Code is required.
+          </div>
+        </div> -->
+
+        <div class="col-6">
+          <label>Country</label>
+          <input list="countryList" formControlName="country" placeholder="Select Country" />
+          <div *ngIf="dashboardForm.get('country')?.touched && dashboardForm.get('country')?.invalid"
+            style="color: red; font-size: 13px;">
+            country is required.
+          </div>
+          <datalist id="countryList">
+            <option *ngFor="let c of filteredCountries" [value]="c"></option>
+          </datalist>
+        </div>
+
+        <div class="col-6">
+          <label>State</label>
+          <input list="stateList" formControlName="state" placeholder="Select State" />
+          <div *ngIf="dashboardForm.get('state')?.touched && dashboardForm.get('state')?.invalid"
+            style="color: red; font-size: 13px;">
+            State is required.
+          </div>
+          <datalist id="stateList">
+            <option *ngFor="let s of filteredStates" [value]="s"></option>
+          </datalist>
+        </div>
+
+        <div class="col-6">
+          <label>District</label>
+          <input list="districtList" formControlName="district" placeholder="Select District" />
+          <div *ngIf="dashboardForm.get('district')?.touched && dashboardForm.get('district')?.invalid"
+            style="color: red; font-size: 13px;">
+            District is required. 
+          </div>
+          <datalist id="districtList">
+            <option *ngFor="let d of filteredDistricts" [value]="d"></option>
+          </datalist>
+        </div>
+
+        <div class="col-6">
+          <label>Pincode</label>
+          <input formControlName="pincode" placeholder="Pincode" readonly />
+          <div *ngIf="dashboardForm.get('pincode')?.touched && dashboardForm.get('pincode')?.invalid"
+            style="color: red; font-size: 13px;">
+            Pin Code is required. 
+          </div>  
+        </div>
+
+
+        <div class="col-12">
+          <label>Address</label>
+          <textarea class="form-control" formControlName="address"></textarea>
+          <div *ngIf="dashboardForm.get('address')?.touched && dashboardForm.get('address')?.invalid"
+            style="color: red; font-size: 13px;">
+            Address is required.
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 🏦 BANK SECTION -->
+    <div class="bank-section">
+      <div class="card-header fw-bold text-center">
+
+        <div class="tab-container">
+
+          <div class="left-side-tabs">
+            <mat-tab-group>
+
+
+              <mat-tab label="Banks">
+
+                <div class="card-header text-center">
+                  <h4>Bank Details</h4>
+                </div>
+                <div formArrayName="banks" class="table-responsive mt-3">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Bank Name</th>
+                        <th>Bank Type</th>
+                        <th>Branch</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Manager</th>
+                        <th>Est. Date</th>
+                        <th>
+                          <button mat-raised-button color="primary" type="button" (click)="addBank()">
+                            <mat-icon>add</mat-icon>Add
+                          </button>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let bank of banks.controls; let i = index" [formGroupName]="i">
+                        <ng-container *ngIf="!bank.get('deleted')?.value; else deletedRow">
+                          <input type="hidden" formControlName="id" />
+                          <td><input formControlName="bankName" class="form-control form-control-sm" />
+                            <div *ngIf="bank.get('bankName')?.touched && bank.get('bankName')?.invalid"
+                              style="color: red; font-size: 9px;">
+                              Bank Name is required.
+                            </div>
+                          </td>
+                          <td>
+                            <select formControlName="bankType" class="form-select form-select-sm">
+                              <option value="">Select</option>
+                              <option *ngFor="let type of bankTypes" [value]="type">{{ type }}</option>
+                            </select>
+
+                            <!-- Validation message outside the select -->
+                            <div *ngIf="bank.get('bankType')?.touched && bank.get('bankType')?.hasError('required')"
+                              style="color: red; font-size: 9px;">
+                              Bank Type is required.
+                            </div>
+                          </td>
+
+                          <td><input formControlName="branchName" class="form-control form-control-sm" />
+                            <div *ngIf="bank.get('branchName')?.touched && bank.get('branchName')?.invalid"
+                              style="color: red; font-size: 9px;">
+                              Branch Name is required.
+                            </div>
+                          </td>
+                          <td><input formControlName="bankAddress" class="form-control form-control-sm" />
+                            <div *ngIf="bank.get('bankAddress')?.touched && bank.get('bankAddress')?.invalid"
+                              style="color: red; font-size: 9px;">
+                              Bank Address is required.
+                            </div>
+                          </td>
+                          <td><input formControlName="email" class="form-control form-control-sm" />
+                            <div *ngIf="bank.get('email')?.touched && bank.get('email')?.invalid"
+                              style="color: red; font-size: 9px;">
+                              Email is required.
+                            </div>
+                          </td>
+                          <td>
+                            <input formControlName="phone" class="form-control form-control-sm" maxlength="10"
+                              (keypress)="allowOnlyNumbers($event)" />
+
+                            <!-- Required validation -->
+                            <div *ngIf="bank.get('phone')?.touched && bank.get('phone')?.hasError('required')"
+                              style="color: red; font-size: 9px;">
+                              Phone is required.
+                            </div>
+
+                            <!-- Pattern/length validation -->
+                            <div *ngIf="bank.get('phone')?.touched && bank.get('phone')?.hasError('pattern')"
+                              style="color: red; font-size: 9px;">
+                              Phone number must be 10 digits.
+                            </div>
+                            <div *ngIf="bank.get('phone')?.touched && bank.get('phone')?.hasError('maxlength')"
+                              style="color: red; font-size: 9px;">
+                              Phone number must be 10 digits.
+                            </div>
+                          </td>
+
+                          <td><input formControlName="managerName" class="form-control form-control-sm" />
+                            <div *ngIf="bank.get('managerName')?.touched && bank.get('managerName')?.invalid"
+                              style="color: red; font-size: 9px;">
+                              Manager Name is required.
+                            </div>
+                          </td>
+                          <td><input type="date" formControlName="establishedDate"
+                              class="form-control form-control-sm" />
+                            <div *ngIf="bank.get('establishedDate')?.touched && bank.get('establishedDate')?.invalid"
+                              style="color: red; font-size: 9px;">
+                              Established Date is required.
+                            </div>
+                          </td>
+                          <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                              <button mat-mini-fab color="accent" type="button"
+                                (click)="openAccountDialog(i, accountDialogTemplate)">
+                                <mat-icon>person_add</mat-icon>
+                              </button>
+                              <button mat-mini-fab color="warn" type="button" (click)="removeBank(i)">
+
+                                <mat-icon>delete</mat-icon>
+                              </button>
+                            </div>
+                          </td>
+                        </ng-container>
+                        <ng-template #deletedRow>
+                          <td colspan="9" class="text-muted fst-italic">
+                            <button mat-button type="button" (click)="undoBank(i)">
+                              <mat-icon>undo</mat-icon> Undo
+                            </button>
+                          </td>
+                        </ng-template>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </mat-tab>
+
+
+
+              <!-- 📇 Contacts Tab -->
+              <mat-tab label="Contacts">
+                <div class="contact-form-actions" *ngIf="editMode">
+                  <button mat-raised-button color="primary" type="button" (click)="openContactsPreview()">
+                    📥 Preview Contacts
+                  </button>
+
+                  <button mat-raised-button color="accent" type="button" (click)="exportContactsToExcel()">
+                    📤 Open/Edit Excel
+                  </button>
+
+                  <button mat-raised-button color="secondary" type="button" (click)="fileInput.click()">
+                    📥 Upload Edited Excel
+                  </button>
+
+                  <input type="file" #fileInput hidden (change)="onFileUpload($event)" accept=".xlsx, .xls" />
+                </div>
+
+                <div class="card-header text-center">
+                  <h4>Contact Details</h4>
+
+                </div>
+
+                <!-- ✅ Wrap the entire table in formArrayName="contacts" -->
+                <div formArrayName="contacts">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Relation</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>
+                          <button mat-raised-button color="primary" type="button" (click)="addContact()">
+                            <mat-icon>add</mat-icon>
+                            Add
+                          </button>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="contacts.length">
+                      <!-- ✅ Proper formGroupName binding inside the formArray -->
+                      <ng-container *ngFor="let contact of contacts.controls; let i = index">
+                        <tr [formGroupName]="i">
+                          <ng-container *ngIf="!contact.get('deleted')?.value; else deletedRowContact">
+                            <td><input formControlName="name" class="form-control form-control-sm" />
+                              <div *ngIf="contact.get('name')?.touched && contact.get('name')?.invalid"
+                                style="color: red; font-size: 9px;">
+                                Name is required.
+                              </div>
+                            </td>
+                            <td>
+
+                              <select formControlName="relation" placeholder="Select Relation">
+                                <option value="">select</option>
+                                <option *ngFor="let rel of relationTypes" [value]="rel">{{ rel }}</option>
+                              </select>
+                              <div *ngIf="contact.get('relation')?.touched && contact.get('relation')?.invalid"
+                                style="color: red; font-size: 9px;">
+                                Relation is required.
+                              </div>
+                            </td>
+                            <td><input formControlName="mobile" class="form-control form-control-sm" maxlength="10"
+                                (keypress)="allowOnlyNumbers($event)" />
+                              <div *ngIf="contact.get('mobile')?.touched && contact.get('mobile')?.hasError('required')"
+                                style="color: red; font-size: 9px;">
+                                Mobile is required.
+                              </div>
+                              <div *ngIf="contact.get('mobile')?.touched && contact.get('mobile')?.hasError('pattern')"
+                                style="color: red; font-size: 9px;">
+                                Mobile must be 10 digits.
+                              </div>
+                            </td>
+                            <td><input formControlName="email" class="form-control form-control-sm" />
+                              <div *ngIf="contact.get('email')?.touched && contact.get('email')?.invalid"
+                                style="color: red; font-size: 9px;">
+                                Email is required.
+                              </div>
+                            </td>
+                            <td><input formControlName="address" class="form-control form-control-sm" />
+
+                              <div *ngIf="contact.get('address')?.touched && contact.get('address')?.invalid"
+                                style="color: red; font-size: 9px;">
+                                Address is required.
+                              </div>
+                            </td>
+                            <td>
+                              <button mat-mini-fab color="warn" type="button" (click)="removeContact(i)">
+                                <mat-icon>delete</mat-icon>
+                              </button>
+                            </td>
+                          </ng-container>
+                        </tr>
+
+                        <!-- 🔁 Deleted Contact Row (Undo Button) -->
+                        <ng-template #deletedRowContact>
+                          <tr>
+                            <td colspan="6" class="text-muted fst-italic">
+                              <button mat-button type="button" (click)="undoContact(i)">
+                                <mat-icon>undo</mat-icon> Undo
+                              </button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- <div class="d-flex justify-content-end mt-3 me-2">
+              <button mat-flat-button color="primary" type="button" (click)="confirmContacts()">
+                <mat-icon>check_circle</mat-icon> Confirm Contacts
+              </button>
+            </div> -->
+              </mat-tab>
+
+            </mat-tab-group>
+          </div>
+        </div>
+
+        <!-- <h3>Bank Details </h3> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ BOTTOM ACTION BUTTONS -->
+  <div class="submit-button-group">
+    <button mat-stroked-button color="warn" type="button" (click)="onCancel()">
+      <mat-icon class="me-1">cancel</mat-icon> Cancel
+    </button>
+    <button mat-flat-button color="primary" type="submit">
+      <mat-icon class="me-1">check_circle</mat-icon> Submit
+    </button>
+  </div>
+</form>
+
+
+<!-- Contact preview -->
+<ng-template #contactsPreviewTemplate>
+  <h2 mat-dialog-title>Contacts Preview</h2>
+  <mat-dialog-content>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Relation</th>
+          <th>Mobile</th>
+          <th>Email</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of contactsPreviewData">
+          <td>{{ row.userId }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.relation }}</td>
+          <td>{{ row.mobile }}</td>
+          <td>{{ row.email }}</td>
+          <td>{{ row.address }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" (click)="exportContactsToExcel(); dialog.closeAll()">
+      Download Excel
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+<!-- 🔐 ACCOUNT DIALOG -->
+<ng-template #accountDialogTemplate>
+  <div class="account-dialog-bg">
+    <h3 class="text-center mb-3  ">Account Details</h3>
+    <mat-dialog-content>
+      <form *ngIf="banks?.at(selectedBankIndex)" [formGroup]="banks.at(selectedBankIndex)">
+        <div formArrayName="accounts" class="account-table-wrapper">
+
+          <table class="full-width-table">
+            <thead>
+              <tr>
+                <th>Account Holder</th>
+                <th>Number</th>
+                <th>Account Type</th>
+                <th>IFSC</th>
+                <th>Bank Name</th>
+                <th>Branch</th>
+                <th>Address</th>
+                <th>Balance</th>
+                <th>
+                  <button mat-raised-button color="primary" type="button" (click)="addAccount(selectedBankIndex)">
+                    <mat-icon>add</mat-icon>
+                    Add
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let acc of getAccounts(selectedBankIndex).controls; let i = index" [formGroupName]="i">
+                <ng-container *ngIf="!acc.get('deleted')?.value; else deletedAccountRow">
+                  <input type="hidden" formControlName="id" />
+                  <td><input formControlName="accountHolderName" class="form-control" />
+                    <div *ngIf="acc.get('accountHolderName')?.touched && acc.get('accountHolderName')?.invalid"
+                      style="color: red; font-size: 9px;">
+                      Account Holder Name is required.
+                    </div>
+                  </td>
+                  <td>
+                    <input formControlName="accountNumber" class="form-control" minlength="12" maxlength="18"
+                      (keypress)="allowOnlyNumbers($event)" />
+
+                    <!-- Required validation -->
+                    <div *ngIf="acc.get('accountNumber')?.touched && acc.get('accountNumber')?.hasError('required')"
+                      style="color: red; font-size: 9px;">
+                      Account Number is required.
+                    </div>
+
+                    <!-- Pattern validation -->
+                    <div *ngIf="acc.get('accountNumber')?.touched && acc.get('accountNumber')?.hasError('pattern')"
+                      style="color: red; font-size: 9px;">
+                      Account Number must contain 12-18 digits.
+                    </div>
+                  </td>
+
+                  <td>
+                    <select formControlName="accountType" class="form-select form-select-sm">
+                      <option value="">Select</option>
+                      <option *ngFor="let type of accountTypes" [value]="type">{{ type }}</option>
+                    </select>
+                    <div *ngIf="acc.get('accountType')?.touched && acc.get('accountType')?.invalid"
+                      style="color: red; font-size: 9px;">
+                      Account Type is required.
+                    </div>
+                  </td>
+                  <td><input formControlName="ifscCode" class="form-control" />
+                    <div *ngIf="acc.get('ifscCode')?.touched && acc.get('ifscCode')?.invalid"
+                      style="color: red; font-size: 9px;">
+                      IFSC Code is required.
+                    </div>
+                    <div *ngIf="acc.get('ifscCode')?.touched && acc.get('ifscCode')?.hasError('pattern')"
+                      style="color: red; font-size: 9px;">
+                      IFSC Code must be valid.
+                    </div>
+                  </td>
+                  <td><input formControlName="bankName" class="form-control" />
+
+                    <div *ngIf="acc.get('bankName')?.touched && acc.get('bankName')?.invalid"
+                      style="color: red; font-size: 9px;">
+                      Bank Name is required.
+                    </div>
+                  </td>
+                  <td><input formControlName="branchName" class="form-control" />
+                    <div *ngIf="acc.get('branchName')?.touched && acc.get('branchName')?.invalid"
+                      style="color: red; font-size: 9px;">
+                      Branch Name is required.
+                    </div>
+                  </td>
+                  <td><input formControlName="bankAddress" class="form-control" />
+
+                    <div *ngIf="acc.get('bankAddress')?.touched && acc.get('bankAddress')?.invalid"
+                      style="color: red; font-size: 9px;">
+                      Bank Address is required.
+                    </div>
+                  </td>
+                  <td><input formControlName="balance" class="form-control" />
+                    <div *ngIf="acc.get('balance')?.touched && acc.get('balance')?.invalid"
+                      style="color: red; font-size: 9px;">
+                      Balance is required.
+                    </div>
+                    <div *ngIf="acc.get('balance')?.touched && acc.get('balance')?.hasError('pattern')"
+                      style="color: red; font-size: 9px;">
+                      Balance must be a valid number.
+                    </div>
+                  </td>
+                  <td>
+                    <button mat-mini-fab color="warn" type="button" (click)="removeAccount(selectedBankIndex,i)">
+
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <ng-template #deletedAccountRow>
+                  <td colspan="8" class="text-muted fst-italic">
+                    <button mat-button type="button" (click)="undoAccount(i)">
+                      <mat-icon>undo</mat-icon> Undo
+                    </button>
+                  </td>
+                </ng-template>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="d-flex justify-content-end gap-2 mt-3">
+      <button mat-stroked-button color="warn" type="button" (click)="closeAccountDialog()">
+        <mat-icon class="me-1">close</mat-icon> Close
+      </button>
+      <button mat-flat-button color="primary" type="button" (click)="confirmAccountDialog()">
+        <mat-icon class="me-1">check_circle</mat-icon> Confirm
+      </button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
