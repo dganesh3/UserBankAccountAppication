@@ -1,20 +1,35 @@
 /* Container */
 .home-container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Deep Blue */
-  color: #fff;
-  text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  text-align: left;
+  overflow-y: auto;
 }
 
 /* Hero Section */
-.hero-content h1 {
-  font-size: 2.8rem;
+.hero-section {
+ background-image: url('/assets/kotak.jpg');
+  background-size: cover;    /* use cover instead of contain */
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 50px;
+        /* ensures full height only if content requires */
+  margin-bottom: 0;  
+}
+
+.hero-left {
+ max-width: 700px;
+  padding: 30px;
+  border-radius: 12px;
+  color: black;
+  margin-bottom: 0; 
+}
+
+.hero-left h1 {
+  font-size: 2.5rem;
   margin-bottom: 15px;
   font-weight: bold;
 }
@@ -25,59 +40,57 @@
   opacity: 0.9;
 }
 
+/* Buttons */
 .button-group {
   display: flex;
   gap: 15px;
-  justify-content: center;
 }
 
-.button-group button {
+.btn {
   background: #ff9800;
   color: #fff;
-  border: none;
+  text-decoration: none;
   padding: 12px 25px;
-  font-size: 1rem;
   border-radius: 8px;
-  cursor: pointer;
+  font-size: 1rem;
   transition: 0.3s;
 }
 
-.button-group button:hover {
+.btn:hover {
   background: #d3cc11;
-}
-
-.button-group button a {
-  text-decoration: none;
-  color: inherit;
 }
 
 /* Features Section */
 .features {
-  margin-top: 50px;
+
   display: flex;
   flex-wrap: wrap;
   gap: 25px;
   justify-content: center;
+  padding: 40px 10px;        /* give controlled padding */
+  margin-top: 0;
 }
 
 .feature-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   padding: 25px;
   border-radius: 12px;
   width: 260px;
   transition: transform 0.3s ease, background 0.3s ease;
   text-align: center;
+  color: #c41b1b;
+  bottom: 80%;
 }
 
 .feature-card:hover {
   transform: translateY(-10px);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(86, 82, 82, 0.2);
 }
 
 .feature-card img {
   width: 60px;
-  margin-bottom: 15px;
-  filter: brightness(0) invert(1); /* make icons white */
+;
+  filter: brightness(0) invert(1);
 }
 
 .feature-card h3 {

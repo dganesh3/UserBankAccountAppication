@@ -6,9 +6,8 @@ import { Userservice } from '../core/services/userservice';
 import { ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Locationservice } from '../core/services/locationservice';
-import { combineLatest, debounceTime, distinctUntilChanged, map, Observable, of, shareReplay, startWith, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { RouterModule } from '@angular/router';
-
 
 
 
@@ -18,9 +17,6 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared-module';
 import { MatDialog } from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
-import { state } from '@angular/animations';
-import { count } from 'console';
 
 
 @Component({
