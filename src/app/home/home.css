@@ -4,6 +4,8 @@
   color: #fff;
   text-align: left;
   overflow-y: auto;
+   background: linear-gradient(135deg, #1e293b, #0f766e);
+   height: 100vh;
 }
 
 /* Hero Section */
@@ -16,7 +18,7 @@
   align-items: center;
   justify-content: flex-start;
   padding: 50px;
-        /* ensures full height only if content requires */
+  /* height: 70vh;             adjust height as needed */
   margin-bottom: 0;  
 }
 
@@ -72,19 +74,19 @@
 }
 
 .feature-card {
-  background: rgba(0, 0, 0, 0.1);
+  background-color: rgb(187, 187, 187);
   padding: 25px;
   border-radius: 12px;
   width: 260px;
   transition: transform 0.3s ease, background 0.3s ease;
   text-align: center;
-  color: #c41b1b;
+  color: #090808;
   bottom: 80%;
 }
 
 .feature-card:hover {
   transform: translateY(-10px);
-  background: rgba(86, 82, 82, 0.2);
+  background: rgba(207, 190, 190, 0.2);
 }
 
 .feature-card img {

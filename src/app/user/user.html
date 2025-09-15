@@ -317,7 +317,7 @@
                     📥 Preview Contacts
                   </button>
 
-                  <button mat-raised-button color="accent" type="button" (click)="exportContactsToExcel()">
+                  <button mat-raised-button color="accent" type="button" (click)="exportContactsStyled()">
                     📤 Open/Edit Excel
                   </button>
 
@@ -338,6 +338,7 @@
                   <table class="table table-bordered">
                     <thead>
                       <tr>
+                        
                         <th>Name</th>
                         <th>Relation</th>
                         <th>Mobile</th>
@@ -455,6 +456,7 @@
       <thead>
         <tr>
           <th>User ID</th>
+         
           <th>Name</th>
           <th>Relation</th>
           <th>Mobile</th>
@@ -465,6 +467,7 @@
       <tbody>
         <tr *ngFor="let row of contactsPreviewData">
           <td>{{ row.userId }}</td>
+          
           <td>{{ row.name }}</td>
           <td>{{ row.relation }}</td>
           <td>{{ row.mobile }}</td>

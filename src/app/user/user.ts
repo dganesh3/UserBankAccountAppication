@@ -9,7 +9,8 @@ import { Locationservice } from '../core/services/locationservice';
 import { debounceTime, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
-
+import * as ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 
 
 import Swal from 'sweetalert2';
@@ -901,78 +902,148 @@ export class UserComponent implements OnInit {
   openContactsPreview() {
     this.contactsPreviewData = this.contacts.controls.map(c => ({
       userId: this.dashboardForm.get('id')?.value || '',
+      id: c.get('id')?.value || '',
       name: c.get('name')?.value || '',
       relation: c.get('relation')?.value || '',
       mobile: c.get('mobile')?.value || '',
       email: c.get('email')?.value || '',
       address: c.get('address')?.value || ''
     }));
-    this.dialog.open(this.contactsPreviewTemplate, { width: '1000px' });
+    this.dialog.open(this.contactsPreviewTemplate, { width: '1100px' });
   }
 
   /** Open/Edit Excel pre-populated */
-  exportContactsToExcel() {
-    const data = this.contacts.controls.map(c => ({
-      userId: this.dashboardForm.get('id')?.value || '',
-      name: c.get('name')?.value || '',
-      relation: c.get('relation')?.value || '',
-      mobile: c.get('mobile')?.value || '',
-      email: c.get('email')?.value || '',
-      address: c.get('address')?.value || ''
-    }));
+  // exportContactsToExcel() {
+  //   const data = this.contacts.controls.map(c => ({
+  //     userId: this.dashboardForm.get('id')?.value || '',
+     
+  //     name: c.get('name')?.value || '',
+  //     relation: c.get('relation')?.value || '',
+  //     mobile: c.get('mobile')?.value || '',
+  //     email: c.get('email')?.value || '',
+  //     address: c.get('address')?.value || ''
+  //   }));
 
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data, {
-      header: ['userId', 'name', 'relation', 'mobile', 'email', 'address']
-    });
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Contacts');
-    XLSX.writeFile(wb, 'Contacts.xlsx');
-  }
+  //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data, {
+  //     header: ['userId', 'name', 'relation', 'mobile', 'email', 'address']
+  //   });
+  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Contacts');
+  //   XLSX.writeFile(wb, 'Contacts.xlsx');
+  // }
+
+ async exportContactsStyled() {
+  const data = this.contacts.controls.map(c => ({
+    userId: this.dashboardForm.get('id')?.value || '',
+    name: c.get('name')?.value || '',
+    relation: c.get('relation')?.value || '',
+    mobile: c.get('mobile')?.value || '',
+    email: c.get('email')?.value || '',
+    address: c.get('address')?.value || ''
+  }));
+
+  const workbook = new ExcelJS.Workbook();
+  workbook.creator = 'YourApp';
+  workbook.created = new Date();
+
+  const sheet = workbook.addWorksheet('Contacts', {
+    views: [{ state: 'frozen', ySplit: 1, xSplit: 1 }]
+  });
+
+  // ✅ Headers without `id`
+  sheet.columns = [
+    { header: 'userId',   key: 'userId',   width: 12 },
+    { header: 'name',     key: 'name',     width: 25 },
+    { header: 'relation', key: 'relation', width: 15 },
+    { header: 'mobile',   key: 'mobile',   width: 18 },
+    { header: 'email',    key: 'email',    width: 30 },
+    { header: 'address',  key: 'address',  width: 40 }
+  ];
+
+  // 🎨 Style header row
+  const headerRow = sheet.getRow(1);
+  headerRow.height = 22;
+  headerRow.eachCell(cell => {
+    cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1F4E78' } };
+    cell.border = {
+      top: { style: 'thin' }, left: { style: 'thin' },
+      bottom: { style: 'thin' }, right: { style: 'thin' }
+    };
+  });
+
+  // Add rows
+  data.forEach(d => sheet.addRow(d));
+
+  sheet.getColumn('mobile').numFmt = '@'; // mobile as text
+  sheet.autoFilter = { from: 'A1', to: 'F1' };
+
+  // Wrap address + zebra striping
+  sheet.eachRow((row, rowNumber) => {
+    if (rowNumber > 1) {
+      row.getCell('address').alignment = { wrapText: true, vertical: 'top' };
+      if (rowNumber % 2 === 0) {
+        row.eachCell(cell => {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFF2F2F2' }
+          };
+        });
+      }
+    }
+  });
+
+  const buf = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  saveAs(blob, 'Contacts_styled.xlsx');
+}
 
   /** Upload Edited Excel */
   onFileUpload(event: any) {
-    const file = event.target.files[0];
-    if (!file) return;
+  const file = event.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const excelData: any[] = XLSX.utils.sheet_to_json(sheet);
+  const reader = new FileReader();
+  reader.onload = (e: any) => {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: 'array' });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const excelData: any[] = XLSX.utils.sheet_to_json(sheet);
 
-      excelData.forEach(row => {
-        const rowUserId = row.userId?.toString(); // convert to string for safe comparison
-        const existingIndex = this.contacts.controls.findIndex(c =>
-          c.get('id')?.value?.toString() === rowUserId
-        );
+    excelData.forEach(row => {
+      const rowContactId = row.id?.toString(); // unique per contact
+      const existingIndex = this.contacts.controls.findIndex(c =>
+        c.get('id')?.value?.toString() === rowContactId
+      );
 
-        if (existingIndex >= 0) {
-          // Update existing contact
-          this.contacts.at(existingIndex).patchValue({
-            name: row.name || '',
-            relation: row.relation || '',
-            mobile: row.mobile || '',
-            email: row.email || '',
-            address: row.address || ''
-          });
-        } else {
-          // Add new contact
-          this.contacts.push(this.fb.group({
-            userId: rowUserId || this.dashboardForm.get('id')?.value || '',
-            name: row.name || '',
-            relation: row.relation || '',
-            mobile: row.mobile || '',
-            email: row.email || '',
-            address: row.address || '',
-            deleted: false
-          }));
-        }
-      });
-    };
+      if (existingIndex >= 0) {
+        // ✅ Update existing contact
+        this.contacts.at(existingIndex).patchValue({
+          name: row.name || '',
+          relation: row.relation || '',
+          mobile: row.mobile || '',
+          email: row.email || '',
+          address: row.address || ''
+        });
+      } else {
+        // ✅ Add new contact
+        this.contacts.push(this.fb.group({
+          contactId: rowContactId || null,
+          userId: row.userId || this.dashboardForm.get('id')?.value || '',
+          name: row.name || '',
+          relation: row.relation || '',
+          mobile: row.mobile || '',
+          email: row.email || '',
+          address: row.address || '',
+          deleted: false
+        }));
+      }
+    });
+  };
 
-    reader.readAsArrayBuffer(file);
-  }
-
+  reader.readAsArrayBuffer(file);
+}
 }
 

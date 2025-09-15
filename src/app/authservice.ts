@@ -8,7 +8,7 @@ import { PLATFORM_ID } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-private baseUrl = 'http://localhost:8080/api/auth';
+private baseUrl = 'http://localhost:9090/api/auth';
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   loggedIn$ = this.loggedIn.asObservable();
 

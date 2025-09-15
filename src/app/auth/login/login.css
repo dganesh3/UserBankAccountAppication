@@ -1,124 +1,202 @@
-/* 🔹 Background wrapper */
 .background-image {
-  min-height: 100vh;
-  width: 100%;
-
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* ✅ Modern gradient (dark → teal) */
-  background: linear-gradient(135deg, #1e293b, #0f766e);
-
-  /* Subtle pattern overlay */
-  /* background-image: 
-    linear-gradient(135deg, rgba(255,255,255,0.05) 25%, transparent 25%),
-    linear-gradient(225deg, rgba(255,255,255,0.05) 25%, transparent 25%);
-  background-size: 50px 50px; */
-
-  padding: 2rem 1rem;
-  box-sizing: border-box;
-  overflow-y: auto;
+  justify-content: center;       /* center horizontally */
+  align-items: center;           /* center vertically */
+  min-height: 100vh;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  background-image: url('/assets/login.jpg');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 }
 
-/* 🔹 Login container */
+/* Dark overlay */
+.background-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);   /* dark overlay */
+  z-index: 0;
+}
+
+/* Glassmorphic login card */
 .container {
+  width: 400px;                    
+  padding: 50px 45px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(25px);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+  color: #fff;
+  z-index: 1;
+  /* remove margin-right to truly center */
+  align-self: center;              /* vertically center */
+}
+
+/* Optional floating blurred blob for depth */
+.background-image::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  top: -150px;
+  left: -150px;
+  filter: blur(120px);
+  animation: floatBlob 12s ease-in-out infinite alternate;
+}
+
+@keyframes floatBlob {
+  0% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-50px, 80px) scale(1.2); }
+  100% { transform: translate(0,0) scale(1); }
+}
+/* Responsive design */
+@media (max-width: 768px) {
+  .background-image {
+    justify-content: center;
+    padding: 20px;
+    flex-direction: column;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 400px;
+    margin-right: 0;
+  }
+
+  .background-image::after {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    left: -100px;
+    filter: blur(80px);
+  }
+}
+
+
+/* === Glassmorphic Login Card === */
+/* .container {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 50px 45px;
+  max-width: 400px;
   width: 100%;
-  max-width: 380px;
-  padding: 2rem;
-  background: #d5d0d0;
-  border-radius: 14px;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  animation: fadeIn 0.6s ease-in-out;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  color: #fff;
+  z-index: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+} */
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45);
 }
 
-/* Smooth fade-in animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 🔹 Heading */
 .container h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.9rem;
+  font-size: 32px;
   font-weight: 700;
-  color: #1e293b;  /* slate gray */
+  text-align: left;
+  margin-bottom: 30px;
+  color: #fff;
+  letter-spacing: 0.8px;
 }
 
-/* 🔹 Labels */
-label {
-  font-weight: 600;
-  color: #2f4b77;  /* dark gray */
-  margin-bottom: 0.4rem;
-  display: block;
+/* === Input Fields === */
+form div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
-/* 🔹 Input fields */
-input[type="text"],
-input[type="password"] {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;  /* soft border */
+form label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #e0e0e0;
+  font-size: 15px;
+}
+
+form input {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 14px;
   outline: none;
-  font-size: 0.95rem;
   transition: all 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
-  border-color: #0d9488; /* teal focus */
-  box-shadow: 0 0 6px rgba(13, 148, 136, 0.3);
+form input::placeholder {
+  color: rgba(255,255,255,0.6);
 }
 
-/* 🔹 Error message */
-.error-message {
-  color: #dc2626; /* modern red */
-  font-size: 0.85rem;
-  margin-top: -0.5rem;
-  margin-bottom: 0.8rem;
+form input:focus {
+  border: 1px solid #4facfe;
+  box-shadow: 0 0 8px rgba(79,172,254,0.6);
+  background: rgba(255,255,255,0.1);
 }
 
-/* 🔹 Login button */
+/* === Error Messages === */
+.error {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* === Button === */
 button {
   width: 100%;
-  padding: 0.85rem;
-  margin-top: 0.5rem;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #0f766e, #115e59); /* dark teal */
-  color: white;
-  font-size: 1rem;
+  padding: 14px;
+  font-size: 16px;
   font-weight: 600;
+  color: #fff;
   border: none;
+  border-radius: 12px;
   cursor: pointer;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
   transition: all 0.3s ease;
 }
 
 button:hover {
-  background: linear-gradient(135deg, #14b8a6, #0d9488);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #3b8edb, #00d4fe);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* 🔹 Signup link */
+/* === Signup Link === */
 .signup-link {
-  text-align: center;
-  margin-top: 1.2rem;
-  font-size: 0.9rem;
-  color: #475569;  /* slate gray */
+  text-align: left;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ccc;
 }
 
 .signup-link a {
-  color: #0f766e;
+  color: #4facfe;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .signup-link a:hover {
-  color: #14b8a6;
+  color: #00f2fe;
   text-decoration: underline;
+}
+
+/* === Responsive === */
+@media (max-width: 700px) {
+  .background-image {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .container {
+    width: 90%;
+    padding: 35px;
+  }
 }
